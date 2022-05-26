@@ -13,4 +13,6 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: monitoring
-  values: {}
+  values:
+    loki:
+      authEnabled: false
