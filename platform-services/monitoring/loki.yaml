@@ -16,3 +16,5 @@ spec:
   values:
     loki:
       authEnabled: false
+      storage:
+        type: local
