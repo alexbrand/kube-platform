@@ -14,7 +14,14 @@ spec:
         name: grafana
         namespace: monitoring
   values:
+    serviceAccount:
+      annotations: 
+        iam.gke.io/gcp-service-account: cluster-monitoring-loki@abrand-playground.iam.gserviceaccount.com
     loki:
       authEnabled: false
       storage:
-        type: local
+        type: gcs
+        bucketNames:
+          chunks: bucket-cluster-clear-locust-logs
+          ruler: bucket-cluster-clear-locust-logs
+          admin: bucket-cluster-clear-locust-logs

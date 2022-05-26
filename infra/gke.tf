@@ -50,3 +50,30 @@ module "gke" {
     },
   ]
 }
+
+
+resource "google_storage_bucket" "cluster_logs" {
+  name          = "bucket-${random_pet.gke_cluster_name.id}-logs"
+  project       = var.project_id
+  location      = "US"
+  force_destroy = true
+
+  uniform_bucket_level_access = true
+}
+
+resource "google_service_account" "loki_service_account" {
+  account_id   = "cluster-monitoring-loki"
+  display_name = "Cluster Monitoring: Loki"
+}
+
+resource "google_storage_bucket_iam_member" "loki_service_account_member" {
+  bucket = google_storage_bucket.cluster_logs.name
+  role = "roles/storage.objectAdmin"
+  member = "serviceAccount:${google_service_account.loki_service_account.email}"
+}
+
+resource "google_service_account_iam_member" "loki_service_account_allow_workload_identity" {
+  service_account_id = google_service_account.loki_service_account.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[monitoring/loki]"
+}
