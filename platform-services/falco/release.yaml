@@ -13,4 +13,6 @@ spec:
         kind: HelmRepository
         name: falcosecurity
         namespace: falco
-  values: {}
+  values:
+    ebpf:
+      enabled: true
