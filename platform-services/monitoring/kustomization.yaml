@@ -7,3 +7,4 @@ resources:
 - ./promtail.yaml
 - ./repository-grafana.yaml
 - ./repository-prometheus-community.yaml
+- ./tempo.yaml
