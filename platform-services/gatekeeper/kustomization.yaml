@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ./cert-manager
-- ./monitoring
-- ./gatekeeper
+- ./gatekeeper.yaml
+- ./namespace.yaml
+- ./repository-gatekeeper.yaml
