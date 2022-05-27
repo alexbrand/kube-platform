@@ -24,4 +24,3 @@ spec:
         bucketNames:
           chunks: bkt-gke-dev01-logs
           ruler: bkt-gke-dev01-logs
-          admin: bkt-gke-dev01-logs
