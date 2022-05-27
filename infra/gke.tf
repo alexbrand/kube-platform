@@ -1,3 +1,7 @@
+locals {
+  gke_cluster_name = "gke-dev01"
+}
+
 data "google_client_config" "default" {}
 
 provider "kubernetes" {
@@ -6,14 +10,10 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
 }
 
-resource "random_pet" "gke_cluster_name" {
-  prefix = "cluster"
-}
-
 module "gke" {
   source                     = "terraform-google-modules/kubernetes-engine/google"
   project_id                 = var.project_id
-  name                       = random_pet.gke_cluster_name.id
+  name                       = local.gke_cluster_name
   region                     = var.region
   regional                   = false
   zones                      = [var.gke_cluster_zone]
@@ -53,7 +53,7 @@ module "gke" {
 
 
 resource "google_storage_bucket" "cluster_logs" {
-  name          = "bucket-${random_pet.gke_cluster_name.id}-logs"
+  name          = "bkt-${local.gke_cluster_name}-logs"
   project       = var.project_id
   location      = "US"
   force_destroy = true
@@ -68,7 +68,7 @@ resource "google_service_account" "loki_service_account" {
 
 resource "google_storage_bucket_iam_member" "loki_service_account_member" {
   bucket = google_storage_bucket.cluster_logs.name
-  role = "roles/storage.objectAdmin"
+  role   = "roles/storage.objectAdmin"
   member = "serviceAccount:${google_service_account.loki_service_account.email}"
 }
 

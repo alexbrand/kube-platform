@@ -22,6 +22,6 @@ spec:
       storage:
         type: gcs
         bucketNames:
-          chunks: bucket-cluster-clear-locust-logs
-          ruler: bucket-cluster-clear-locust-logs
-          admin: bucket-cluster-clear-locust-logs
+          chunks: bkt-gke-dev01-logs
+          ruler: bkt-gke-dev01-logs
+          admin: bkt-gke-dev01-logs
